@@ -68,7 +68,7 @@
         var lat = $(this).attr("lat");
         $.ajax({
           type: "POST",
-          url:"/db/saveDbAddress",
+          url:"https://dabokeji.herokuapp.com/db/saveDbAddress",
           dataType : "jsonp",//数据类型为jsonp
           jsonp: "jsonpCallback",//服务端用于接收callback调用的function名的参数
           data: JSON.stringify({"city": addressComponents.city,"district": addressComponents.district,"province": addressComponents.province}),
@@ -114,7 +114,7 @@
     function saveAddressDetail(addressid,detail,lat,lng) {
       $.ajax({
         type: "POST",
-        url:"/db/saveDbAddressDetail",
+        url:"https://dabokeji.herokuapp.comdb/saveDbAddressDetail",
         dataType : "jsonp",//数据类型为jsonp
         jsonp: "jsonpCallback",//服务端用于接收callback调用的function名的参数
         data: JSON.stringify({ "lat":lat,"lng":lng,"addressid": addressid,"detail": detail,"address":$("#title001").html()}),
