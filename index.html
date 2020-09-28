@@ -67,9 +67,11 @@
         var lng = $(this).attr("lng");
         var lat = $(this).attr("lat");
         $.ajax({
-          type: "POST",
-          url:"https://dabokeji.herokuapp.com/db/saveDbAddress",
+          type: "GET",
+          url:"http://dabokeji.herokuapp.com/db/saveDbAddress",
           dataType : "jsonp",//数据类型为jsonp
+          jsonp:"callback", //请求的参数名
+          jsonpCallback: "jsonhandle",//要执行的回调函数
           data: JSON.stringify({"city": addressComponents.city,"district": addressComponents.district,"province": addressComponents.province}),
           contentType: "application/json;charset=utf-8",
           success: function (result) {
@@ -77,8 +79,8 @@
               saveAddressDetail(result.id,details,lat,lng);
             }
           },
-          error: function () {
-            console.log("shibai");
+          error: function (e) {
+            console.log(e);
             $('#loadingModal').modal('hide');
           }
         });
@@ -112,9 +114,11 @@
     }
     function saveAddressDetail(addressid,detail,lat,lng) {
       $.ajax({
-        type: "POST",
-        url:"https://dabokeji.herokuapp.comdb/saveDbAddressDetail",
+        type: "GET",
+        url:"http://dabokeji.herokuapp.com/db/saveDbAddressDetail",
         dataType : "jsonp",//数据类型为jsonp
+        jsonp:"callback", //请求的参数名
+        jsonpCallback: "jsonhandle",//要执行的回调函数
         data: JSON.stringify({ "lat":lat,"lng":lng,"addressid": addressid,"detail": detail,"address":$("#title001").html()}),
         contentType: "application/json;charset=utf-8",
         success: function (result) {
@@ -123,8 +127,8 @@
             window.location.href="/main?detailId="+result.id;
           }
         },
-        error: function () {
-          console.log("shibai");
+        error: function (e) {
+          console.log(e);
           $('#loadingModal').modal('hide');
         }
       });
@@ -141,6 +145,10 @@
         }
       });
       local.search($("#addrssName").val());
+    }
+    function jsonhandle(json){
+      var res = json;
+      console.log(res);
     }
 </script>
 </html>
