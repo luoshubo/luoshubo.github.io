@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title th:text="${adetail}">主页</title>
+  <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body style="margin: 1rem;">
+<div class="panel panel-default">
+  <div class="panel-heading" id="dianhuabu">
+    电话簿
+  </div>
+  <div class="panel-body" id="dianhuabuBody">
+    <form role="form" id="addPhoenForm" style="margin-bottom: 1rem;">
+      <div class="form-group">
+        <input type="text" class="form-control" id="pname" placeholder="请输入姓名" onkeyup="this.value=this.value.replace(/[, ]/g,'')" maxlength="30" >~
+        <input type="text" class="form-control" id="pphone" placeholder="请输入电话" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"
+               maxlength="30" >
+      </div>
+      <button class="btn btn-default" id="addPhone" type="button">添加</button><br/>
+    </form>
+
+    <table class="table" style="width: 90%;max-width: 100%;">
+      <tbody>
+    
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading" id="zuixindongtai">
+    最新动态（开发中）
+  </div>
+  <div class="panel-body" id="zuixindongtaiBody">
+  </div>
+</div>
+</body>
+<script>
+  (function(){
+  alert("123312");
+  })();
+</script>
+</html>
