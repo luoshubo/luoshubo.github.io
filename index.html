@@ -9,10 +9,10 @@
 </head>
 <body>
 <h2 id="title001"></h2>
-  <div class="form-group">
-    <input type="text" class="form-control" id="addrssName" placeholder="请输入地点" onkeyup="this.value=this.value.replace(/[, ]/g,'')" maxlength="30" >
-  </div>
-  <button class="btn btn-default" onclick="search()" type="button">搜索</button><br/><br/>
+<div class="form-group">
+  <input type="text" class="form-control" id="addrssName" placeholder="请输入地点" onkeyup="this.value=this.value.replace(/[, ]/g,'')" maxlength="30" >
+</div>
+<button class="btn btn-default" onclick="search()" type="button">搜索</button><br/><br/>
 <ul class="list-group">
 
   <li class="list-group-item fadenum" id="liebiaobusiness"></li>
@@ -24,7 +24,7 @@
   <li class="list-group-item fadenum" id="liebiao05"></li>
   <li class="list-group-item fadenum" id="liebiao06"></li>
 </ul>
-  <div id="allmap" style="width: 100%;height: 500px;"></div>
+<div id="allmap" style="width: 100%;height: 500px;"></div>
 
 <div class="modal fade" id="loadingModal">
   <div style="width: 200px;height:20px; z-index: 20000; position: absolute; text-align: center; left: 50%; top: 50%;margin-left:-100px;margin-top:-10px">
@@ -42,113 +42,122 @@
 
 </style>
 <script>
-    // 百度地图API功能
-    var addressComponents;
-    var map = null;
-    var point = null;
-    (function(){
-      map = new BMap.Map("allmap");
-      point = new BMap.Point(108.95, 34.27);
-      map.centerAndZoom(point, 12);
-      map.addEventListener("click", function (e) {
-        dingwei(e);
-      });
-      var geolocation = new BMap.Geolocation();
-      geolocation.getCurrentPosition(function (r) {
-        if (this.getStatus() == BMAP_STATUS_SUCCESS) {
-          dingwei(r);
-        } else {
-          alert('failed' + this.getStatus());
-        }
-      }, {enableHighAccuracy: true});
-      $(".list-group-item").click(function () {
-        $("#loadingModal").modal('show');
-        var details = $(this).html();
-        var lng = $(this).attr("lng");
-        var lat = $(this).attr("lat");
-        $.ajax({
-          type: "GET",
-          url:"http://dabokeji.herokuapp.com/db/saveDbAddress",
-          dataType : "jsonp",//数据类型为jsonp
-          jsonp:"callback", //请求的参数名
-          jsonpCallback: "jsonhandle",//要执行的回调函数
-          data: JSON.stringify({"city": addressComponents.city,"district": addressComponents.district,"province": addressComponents.province}),
-          contentType: "application/json;charset=utf-8",
-          success: function (result) {
-            if(result && result.id){
-              saveAddressDetail(result.id,details,lat,lng);
-            }
-          },
-          error: function (e) {
-            console.log(e);
-            $('#loadingModal').modal('hide');
-          }
-        });
+  // 百度地图API功能
+  var addressComponents;
+  var map = null;
+  var point = null;
+  (function(){
+    /*$.ajax({
+      url: "http://localhost:5000/db/testjsonp",
+      data: { "id":"12312312323123123123123"},
+      type: "POST",
+      xhrFields: {
+        withCredentials: true    //允许发送Cookie信息
+      },
+      success: function (data) {
+        alert(data.id)
+      },
+      error: function (data) {
+        alert("跨域请求配置失败")
+      }
+    })*/
 
 
-      });
-    })()
-    function dingwei(r) {
-        $("#title001").html("");
-        $("#liebiaobusiness").html("");
-        $(".list-group-item").html("").hide();
-        var mk = new BMap.Marker(r.point);
-        map.addOverlay(mk);//标出所在地
-        map.panTo(r.point);//地图中心移动
-        //alert('您的位置：'+r.point.lng+','+r.point.lat);
-        var point = new BMap.Point(r.point.lng, r.point.lat);//用所定位的经纬度查找所在地省市街道等信息
-        var gc = new BMap.Geocoder();
-        gc.getLocation(point, function (rs) {
-            $("#title001").html(rs.address);
-            addressComponents = rs.addressComponents;
-            if(rs.business){
-              $("#liebiaobusiness").html(rs.business).show();
-            }
-            var addsize = rs.surroundingPois.length;
-            for (var i = 0; i < addsize; i++) {
-                $("#liebiao0"+i).html(rs.surroundingPois[i].title).show();
-                $("#liebiao0"+i).attr("lng",rs.point.lng);
-                $("#liebiao0"+i).attr("lat",rs.point.lat);
-            }
-        });
-    }
-    function saveAddressDetail(addressid,detail,lat,lng) {
+    map = new BMap.Map("allmap");
+    point = new BMap.Point(108.95, 34.27);
+    map.centerAndZoom(point, 12);
+    map.addEventListener("click", function (e) {
+      dingwei(e);
+    });
+    var geolocation = new BMap.Geolocation();
+    geolocation.getCurrentPosition(function (r) {
+      if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+        dingwei(r);
+      } else {
+        alert('failed' + this.getStatus());
+      }
+    }, {enableHighAccuracy: true});
+    $(".list-group-item").click(function () {
+      $("#loadingModal").modal('show');
+      var details = $(this).html();
+      var lng = $(this).attr("lng");
+      var lat = $(this).attr("lat");
       $.ajax({
-        type: "GET",
-        url:"http://dabokeji.herokuapp.com/db/saveDbAddressDetail",
-        dataType : "jsonp",//数据类型为jsonp
-        jsonp:"callback", //请求的参数名
-        jsonpCallback: "jsonhandle",//要执行的回调函数
-        data: JSON.stringify({ "lat":lat,"lng":lng,"addressid": addressid,"detail": detail,"address":$("#title001").html()}),
-        contentType: "application/json;charset=utf-8",
+        url: "https://dabokeji.herokuapp.com/db/saveDbAddress",
+        data: {"city": addressComponents.city,"district": addressComponents.district,"province": addressComponents.province},
+        type: "POST",
+        xhrFields: {
+          withCredentials: true    //允许发送Cookie信息
+        },
         success: function (result) {
-          $('#loadingModal').modal('hide');
           if(result && result.id){
-            window.location.href="/main?detailId="+result.id;
+            saveAddressDetail(result.id,details,lat,lng);
           }
         },
-        error: function (e) {
-          console.log(e);
+        error: function (data) {
+          console.log(data);
           $('#loadingModal').modal('hide');
         }
-      });
-    }
-    function search() {
-      var local = new BMap.LocalSearch(map, {
-        renderOptions:{map: map},
-        onSearchComplete: function(results){
-          if (local.getStatus() == BMAP_STATUS_SUCCESS){
-            if(results && results.Hr){
-              dingwei(results.Hr[0]);
-            }
+      })
+
+    });
+  })()
+  function dingwei(r) {
+    $("#title001").html("");
+    $("#liebiaobusiness").html("");
+    $(".list-group-item").html("").hide();
+    var mk = new BMap.Marker(r.point);
+    map.addOverlay(mk);//标出所在地
+    map.panTo(r.point);//地图中心移动
+    //alert('您的位置：'+r.point.lng+','+r.point.lat);
+    var point = new BMap.Point(r.point.lng, r.point.lat);//用所定位的经纬度查找所在地省市街道等信息
+    var gc = new BMap.Geocoder();
+    gc.getLocation(point, function (rs) {
+      $("#title001").html(rs.address);
+      addressComponents = rs.addressComponents;
+      if(rs.business){
+        $("#liebiaobusiness").html(rs.business).show();
+      }
+      var addsize = rs.surroundingPois.length;
+      for (var i = 0; i < addsize; i++) {
+        $("#liebiao0"+i).html(rs.surroundingPois[i].title).show();
+        $("#liebiao0"+i).attr("lng",rs.point.lng);
+        $("#liebiao0"+i).attr("lat",rs.point.lat);
+      }
+    });
+  }
+  function saveAddressDetail(addressid,detail,lat,lng) {
+    $.ajax({
+      url: "https://dabokeji.herokuapp.com/db/saveDbAddressDetail",
+      data: { "lat":lat,"lng":lng,"addressid": addressid,"detail": detail,"address":$("#title001").html()},
+      type: "POST",
+      xhrFields: {
+        withCredentials: true    //允许发送Cookie信息
+      },
+      success: function (result) {
+        $('#loadingModal').modal('hide');
+        if(result && result.id){
+          window.location.href="https://luoshubo.github.io/main.html?detailId="+result.id;
+        }
+      },
+      error: function (data) {
+        console.log(data);
+        $('#loadingModal').modal('hide');
+      }
+    });
+  }
+  function search() {
+    var local = new BMap.LocalSearch(map, {
+      renderOptions:{map: map},
+      onSearchComplete: function(results){
+        if (local.getStatus() == BMAP_STATUS_SUCCESS){
+          if(results && results.Hr){
+            dingwei(results.Hr[0]);
           }
         }
-      });
-      local.search($("#addrssName").val());
-    }
-    function jsonhandle(json){
-      var res = json;
-      console.log(res);
-    }
+      }
+    });
+    local.search($("#addrssName").val());
+  }
 </script>
 </html>
