@@ -2,12 +2,13 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title th:text="${adetail}">主页</title>
+  <title>主页</title>
   <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
   <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body style="margin: 1rem;">
+<input type="hidden" id="detailId"  th:value="${detailId}"/>
 <div class="panel panel-default">
   <div class="panel-heading" id="dianhuabu">
     电话簿
@@ -24,7 +25,12 @@
 
     <table class="table" style="width: 90%;max-width: 100%;">
       <tbody>
-    
+     <!-- <th:block th:each="phone : ${phones}" >
+        <tr>
+          <td style="color: #428BCA;"><a  th:attr="href='tel:'+${phone.pphone}" th:text="${phone.pname}" class="telcall"/> <a  th:attr="href='tel:'+${phone.pphone}" th:text="${phone.pphone}" class="telcall"/></td>
+          <td style="color: #428BCA;" th:attr="dataid=${phone.id}" onclick="deletePhone(this)">删除</td>
+        </tr>
+      </th:block>-->
       </tbody>
     </table>
   </div>
@@ -40,7 +46,68 @@
 </body>
 <script>
   (function(){
-  alert("123312");
+    var detailId = getQueryString("detailId");
+
+    $.ajax({
+      url:"https://dabokeji.herokuapp.com/db/getDbAddressDetail?detailId="+detailId,
+      data: {},
+      type: "POST",
+      xhrFields: {
+        withCredentials: true    //允许发送Cookie信息
+      },
+      success: function (result) {
+        console.info(result)
+      },
+      error: function (data) {
+        console.log(data);
+      }
+    })
+
+    $("#dianhuabu").click(function (e) {
+      $("#dianhuabuBody").slideToggle(500);
+    });
+    $("#zuixindongtai").click(function (e) {
+      $("#zuixindongtaiBody").slideToggle(500);
+    });
+    $("#addPhone").click(function (e) {
+      $.ajax({
+        url:"https://dabokeji.herokuapp.com/db/saveDbPhoneBook",
+        data: {"adetailid":$("#detailId").val(), "pname": $("#pname").val(),"pphone": $("#pphone").val()},
+        type: "POST",
+        xhrFields: {
+          withCredentials: true    //允许发送Cookie信息
+        },
+        success: function (result) {
+          window.location.reload();
+        },
+        error: function (data) {
+          console.log(data);
+        }
+      })
+    });
   })();
+  function deletePhone (obj){
+    $.ajax({
+      url:"https://dabokeji.herokuapp.com/db/deletePhoneBook/"+$(obj).attr("dataid"),
+      data: {},
+      type: "POST",
+      xhrFields: {
+        withCredentials: true    //允许发送Cookie信息
+      },
+      success: function (result) {
+        if(result && result.id){
+          window.location.reload();
+        }
+      },
+      error: function (data) {
+        console.log(data);
+      }
+    })
+  }
+  function getQueryString(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) return unescape(r[2]); return null;
+  }
 </script>
 </html>
