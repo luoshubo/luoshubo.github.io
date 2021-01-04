@@ -60,7 +60,7 @@
         if(result && result.phones){
           for(var i=0;i<result.phones.length;i++){
             var phoenbean = result.phones;
-            $("#tableBody").append('<tr> <td style="color: #428BCA;"><a  class="telcall" href="tel:'+phoenbean[i].pphone+'">'+phoenbean[i].pname+'</a>&ensp;&ensp;&ensp;&ensp;&ensp;<a  class="telcall" href="tel:'+phoenbean[i].pphone+'">'+phoenbean[i].pphone+'</a></td> <td style="color: #428BCA;" dataid="'+phoenbean[i].id+'" onclick="deletePhone(this)">删除</td> </tr>');
+            $("#tableBody").append('<tr> <td style="color: #428BCA;"><a  class="telcall" href="tel:'+phoenbean[i].pphone+'">'+phoenbean[i].pname+'</a></tr>');
           }
 
         }
@@ -93,24 +93,6 @@
       })
     });
   })();
-  function deletePhone (obj){
-    $.ajax({
-      url:"https://dabokeji.herokuapp.com/db/deletePhoneBook/"+$(obj).attr("dataid"),
-      data: {},
-      type: "POST",
-      xhrFields: {
-        withCredentials: true    //允许发送Cookie信息
-      },
-      success: function (result) {
-        if(result>0){
-          window.location.reload();
-        }
-      },
-      error: function (data) {
-        console.log(data);
-      }
-    })
-  }
   function getQueryString(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
     var r = window.location.search.substr(1).match(reg);
