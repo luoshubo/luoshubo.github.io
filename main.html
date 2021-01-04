@@ -60,7 +60,7 @@
         if(result && result.phones){
           for(var i=0;i<result.phones.length;i++){
             var phoenbean = result.phones;
-            $("#tableBody").append('<tr> <td style="color: #428BCA;"><a  class="telcall" href="tel:'+phoenbean[i].pphone+'">'+phoenbean[i].pname+'</a></tr>');
+            $("#tableBody").append('<tr> <td style="color: #428BCA;"><a  class="telcall" href="tel:'+phoenbean[i].pphone+'">'+phoenbean[i].pname+'</a>&ensp;&ensp;&ensp;&ensp;&ensp;<a  class="telcall" href="tel:'+phoenbean[i].pphone+'">'+phoenbean[i].pphone+'</a></td></tr>');
           }
 
         }
