@@ -55,7 +55,7 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" id="createFileSureBut">确定</button>
+        <button type="button" class="btn btn-primary" id="createFileSureBut" onclick="delExcut()">确定</button>
       </div>
     </div>
   </div>
@@ -111,20 +111,25 @@
       })
     });
   })();
-  function deletePhone (obj){
+  var delDataid = null;
+  function deletePhone(obj){
     $('#createDelMModal').modal('show');
+    delDataid = $(obj).attr("dataid");
     return;
+  }
+  function delExcut() {
     $.ajax({
-      url:"https://dabokeji.herokuapp.com/db/deletePhoneBook/"+$(obj).attr("dataid"),
+      url:"https://dabokeji.herokuapp.com/db/deletePhoneBook/"+delDataid+"/"+$("#shanchukoulingText").val(),
       data: {},
       type: "POST",
       xhrFields: {
         withCredentials: true    //允许发送Cookie信息
       },
       success: function (result) {
-        if(result>0){
+        window.location.reload();
+       /* if(result>0){
           window.location.reload();
-        }
+        }*/
       },
       error: function (data) {
         console.log(data);
