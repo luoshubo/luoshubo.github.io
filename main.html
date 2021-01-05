@@ -106,6 +106,12 @@
       $("#zuixindongtaiBody").slideToggle(500);
     });
     $("#addPhone").click(function (e) {
+      if(!$("#pname").val()){
+        return;
+      }
+      if(!$("#pphone").val()){
+        return;
+      }
       var storage=window.localStorage;
       storage.setItem("pkouling",$("#pkouling").val());
       $.ajax({
