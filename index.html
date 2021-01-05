@@ -12,11 +12,12 @@
   <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-<h2 id="title001" style="font-size: 2rem"></h2>
-<div class="form-group">
+<h2 id="title001" style="font-size: 1.2rem"></h2>
+<div class="form-group" style="padding: 10px 15px;">
   <input type="text" class="form-control" id="addrssName" placeholder="请输入地点" onkeyup="this.value=this.value.replace(/[, ]/g,'')" maxlength="30" >
+  <br/><br/>
+  <button class="btn btn-default" onclick="search()" type="button">搜索</button>
 </div>
-<button class="btn btn-default" onclick="search()" type="button">搜索</button><br/><br/>
 <ul class="list-group">
 
   <li class="list-group-item fadenum" id="liebiaobusiness"></li>
