@@ -67,6 +67,13 @@
 </body>
 <script>
   (function(){
+    var storage=window.localStorage;
+    var pkoulingStr = storage.getItem("pkouling");
+    if(pkoulingStr){
+      $("#pkouling").val(pkoulingStr);
+      $("#shanchukoulingText").val(pkoulingStr);
+    }
+
     var detailId = getQueryString("detailId");
     $.ajax({
       url:"https://dabokeji.herokuapp.com/db/getDbAddressDetail?detailId="+detailId,
@@ -99,6 +106,8 @@
       $("#zuixindongtaiBody").slideToggle(500);
     });
     $("#addPhone").click(function (e) {
+      var storage=window.localStorage;
+      storage.setItem("pkouling",$("#pkouling").val());
       $.ajax({
         url:"https://dabokeji.herokuapp.com/db/saveDbPhoneBook",
         data: {"adetailid":detailId, "pname": $("#pname").val(),"pphone": $("#pphone").val(),"pkouling":$("#pkouling").val()},
