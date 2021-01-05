@@ -126,12 +126,14 @@
         withCredentials: true    //允许发送Cookie信息
       },
       success: function (result) {
+        $('#createDelMModal').modal('hide');
         window.location.reload();
        /* if(result>0){
           window.location.reload();
         }*/
       },
       error: function (data) {
+        $('#createDelMModal').modal('hide');
         console.log(data);
       }
     })
