@@ -148,7 +148,6 @@
     return;
   }
   function delExcut() {
-    $("#loadingModal").modal('show');
     $.ajax({
       url:"https://dabokeji.herokuapp.com/db/deletePhoneBook/"+delDataid+"/"+$("#shanchukoulingText").val(),
       data: {},
@@ -157,7 +156,6 @@
         withCredentials: true    //允许发送Cookie信息
       },
       success: function (result) {
-        $("#loadingModal").modal('hide');
         $('#createDelMModal').modal('hide');
         window.location.reload();
        /* if(result>0){
@@ -165,7 +163,6 @@
         }*/
       },
       error: function (data) {
-        $("#loadingModal").modal('hide');
         $('#createDelMModal').modal('hide');
         console.log(data);
       }
