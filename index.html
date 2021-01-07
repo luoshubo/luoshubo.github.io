@@ -54,6 +54,12 @@ li{
   var map = null;
   var point = null;
   (function(){
+    var ua = navigator.userAgent.toLowerCase();
+    if(ua.match(/MicroMessenger/i)=="micromessenger" || ua.match(/QQ/i) == "qq") {
+    } else {
+      alert("请在微信浏览器或手机qq浏览器");
+      return false;
+    }
     /*$.ajax({
       url: "http://localhost:5000/db/testjsonp",
       data: { "id":"12312312323123123123123"},
