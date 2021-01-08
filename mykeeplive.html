@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>菜鸟教程(runoob.com)</title>
+<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+</head>
+<body>
+<div id="mudiv121212123"> mudiv<div>
+</body>
+<script type="text/javascript">
+setInterval(function(){
+$.ajax({
+      url:"https://dabokeji.herokuapp.com/db/getDbAddressDetail?detailId=c2e23db6e4b5de8d726fbf63f80c88b0",
+      data: {},
+      type: "POST",
+      xhrFields: {
+        withCredentials: true    //允许发送Cookie信息
+      },
+      success: function (result) {
+        
+      },
+      error: function (data) {
+        console.log(data);
+      }
+    })
+ }, 13000)
+</script>
+</html>
